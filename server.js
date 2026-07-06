@@ -42,6 +42,9 @@ require("http").createServer((req, res) => {
       contents,
       generationConfig: {
         maxOutputTokens: Math.min(parsed.max_tokens || 1000, 2500),
+        // Stäng av Geminis "thinking" — annars äter det upp token-budgeten
+        // och det synliga svaret blir kort eller avhugget.
+        thinkingConfig: { thinkingBudget: 0 },
       },
     };
     if (parsed.system) {
